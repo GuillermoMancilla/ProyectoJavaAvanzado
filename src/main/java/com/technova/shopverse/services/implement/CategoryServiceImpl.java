@@ -1,5 +1,6 @@
 package com.technova.shopverse.services.implement;
 
+import com.technova.shopverse.dto.CategoryDTO;
 import com.technova.shopverse.model.Category;
 import com.technova.shopverse.repository.CategoryRepository;
 import com.technova.shopverse.services.CategoryService;
@@ -13,6 +14,13 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    public CategoryDTO getCategoryDTOById(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada"));
+
+        List<String> productNames = category.getProducts().stream().map(product -> product.getName()).toList();
+        return new CategoryDTO(category.getId(), category.getName(), category.getDescription(), productNames);
+    }
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();

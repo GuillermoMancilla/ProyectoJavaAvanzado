@@ -1,5 +1,6 @@
 package com.technova.shopverse.controllers;
 
+import com.technova.shopverse.dto.CategoryDTO;
 import com.technova.shopverse.model.Category;
 import com.technova.shopverse.repository.CategoryRepository;
 import com.technova.shopverse.services.CategoryService;
@@ -18,6 +19,16 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<CategoryDTO> getCategoryDetails(@PathVariable Long id) {
+        try {
+            CategoryDTO dto = categoryService.getCategoryDTOById(id);
+            return ResponseEntity.ok(dto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping()
     public ResponseEntity< List<Category>> getAllCategories(){
         List<Category> categories = categoryService.getAllCategories();
