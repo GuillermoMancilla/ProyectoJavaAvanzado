@@ -1,28 +1,21 @@
-package com.technova.shopverse.model;
-
-import jakarta.persistence.*;
+package com.technova.shopverse.dto;
 
 import java.util.List;
 
-@Entity
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CategoryDTO {
     private Long id;
     private String name;
     private String description;
+    private List<String> productNames;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
-
-    public Category() {
+    public CategoryDTO() {
     }
 
-    public Category(//Long id,
-                    String name, String description) {
-        //this.id = id;
+    public CategoryDTO(Long id, String name, String description, List<String> productNames) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.productNames = productNames;
     }
 
     public Long getId() {
@@ -49,12 +42,11 @@ public class Category {
         this.description = description;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<String> getProductNames() {
+        return productNames;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setProductNames(List<String> productNames) {
+        this.productNames = productNames;
     }
-
 }

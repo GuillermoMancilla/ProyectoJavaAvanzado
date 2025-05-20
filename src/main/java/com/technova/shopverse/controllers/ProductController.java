@@ -1,5 +1,6 @@
 package com.technova.shopverse.controllers;
 
+import com.technova.shopverse.dto.ProductDTO;
 import com.technova.shopverse.model.Product;
 import com.technova.shopverse.repository.ProductRepository;
 import com.technova.shopverse.services.ProductService;
@@ -16,6 +17,16 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @GetMapping("/dto")
+
+    public ResponseEntity<List<ProductDTO>> getAllWithCategory() {
+        List<ProductDTO> dtoList = productService.getAllProductDTOs();
+        if (dtoList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(dtoList);
+    }
 
     @GetMapping()
     public ResponseEntity<List<Product>> getAllProducts(){
@@ -61,5 +72,15 @@ public class ProductController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build(); // 404 Not Found
         }
+    }
+
+    @GetMapping("/by-category/{categoryId}")
+
+    public ResponseEntity<List<ProductDTO>> getByCategory(@PathVariable Long categoryId) {
+        List<ProductDTO> products = productService.getByCategoryId(categoryId);
+        if (products.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(products);
     }
 }

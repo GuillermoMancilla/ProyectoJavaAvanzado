@@ -19,12 +19,26 @@ public class ShopverseApiApplication {
 	@Bean
 	public CommandLineRunner initData(CategoryRepository categoryRepository, ProductRepository productRepository){
 		return args -> {
-			categoryRepository.save(new Category("Tecnología", "Productos electrónicos y computación"));
-			categoryRepository.save(new Category("Hogar", "Artículos para el hogar y decoración"));
-			categoryRepository.save(new Category("Indumentaria", "Ropa y accesorios"));
-			productRepository.save(new Product("Laptop Lenovo", "Notebook 15 pulgadas", 850.0));
-			productRepository.save(new Product("Mouse Logitech", "Mouse inalámbrico", 25.5));
-			productRepository.save(new Product("Monitor Samsung", "Monitor 24 pulgadas", 199.99));
+			Category category1 = new Category("Tecnología", "Productos electrónicos y computación");
+			Category category2 = new Category("Hogar", "Artículos para el hogar y decoración");
+			Category category3 = new Category("Indumentaria", "Ropa y accesorios");
+
+			categoryRepository.save(category1);
+			categoryRepository.save(category2);
+			categoryRepository.save(category3);
+
+//Se comenta ya que los productos seran creados desde peticion
+//			Product product1 = new Product("Laptop Lenovo", "Notebook 15 pulgadas", 850.0);
+//			Product product2 = new Product("Mouse Logitech", "Mouse inalámbrico", 25.5);
+//			Product product3 = new Product("Monitor Samsung", "Monitor 24 pulgadas", 199.99);
+//			Product product4 = new Product("Repisa x1", "Repisa para libros", 30.99);
+//			Product product5 = new Product("Polera", "polera variedad color", 10.99);
+//			productRepository.save(product1);
+//			productRepository.save(product2);
+//			productRepository.save(product3);
+//			productRepository.save(product4);
+//			productRepository.save(product5);
+
 		};
 	}
 
