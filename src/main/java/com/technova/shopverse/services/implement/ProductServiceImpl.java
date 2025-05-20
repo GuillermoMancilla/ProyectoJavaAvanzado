@@ -1,7 +1,9 @@
 package com.technova.shopverse.services.implement;
 
 import com.technova.shopverse.dto.ProductDTO;
+import com.technova.shopverse.model.Category;
 import com.technova.shopverse.model.Product;
+import com.technova.shopverse.repository.CategoryRepository;
 import com.technova.shopverse.repository.ProductRepository;
 import com.technova.shopverse.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public ProductDTO toDTO(Product product){
         String categoryName = product.getCategory() != null ? product.getCategory().getName() : null;
@@ -26,28 +30,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductDTO> getAllProducts() {
+        return productRepository.findAll().stream().map(this::toDTO).toList();
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+    public Optional<ProductDTO> getProductById(Long id) {
+        return productRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public Product createProduct(Product product) {
-        if (product.getName() == null || product.getName().isBlank()) {
+    public ProductDTO createProduct(ProductDTO productDto) {
+        if (productDto.getName() == null || productDto.getName().isBlank()) {
             throw new IllegalArgumentException("El nombre del producto no puede estar vacío.");
         }
 
-        if (product.getPrice() == null || product.getPrice() <= 0) {
+        if (productDto.getPrice() == null || productDto.getPrice() <= 0) {
             throw new IllegalArgumentException("El precio debe ser mayor a 0.");
         }
-        return productRepository.save(product);
+        if (productDto.getCategoryDTO() == null) {
+            throw new IllegalArgumentException("Debe indicar una categoria.");
+        }
+        Product product = new Product(productDto.getName(), productDto.getDescription(), productDto.getPrice());
+        Category category = categoryRepository.findById(productDto.getCategoryDTO().getId()).orElse(null);
+        product.setCategory(category);
+        productRepository.save(product);
+        return toDTO(product);
     }
 
-    public Product updateProduct(Long id, Product updated) {
+    public ProductDTO updateProduct(Long id, ProductDTO updated) {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
         if (optionalProduct.isEmpty()) {
@@ -59,7 +70,9 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(updated.getDescription());
         product.setPrice(updated.getPrice());
 
-        return productRepository.save(product);
+        productRepository.save(product);
+
+        return toDTO(product);
 
     }
 

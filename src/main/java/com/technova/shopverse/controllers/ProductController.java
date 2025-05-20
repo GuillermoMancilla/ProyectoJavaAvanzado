@@ -29,9 +29,9 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Product>> getAllProducts(){
+    public ResponseEntity<List<ProductDTO>> getAllProducts(){
 
-        List<Product> products = productService.getAllProducts();
+        List<ProductDTO> products = productService.getAllProducts();
         if (products.isEmpty()) {
             return ResponseEntity.noContent().build(); // 204 No Content
         } else {
@@ -39,14 +39,14 @@ public class ProductController {
         }
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         return productService.getProductById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody Product product) {
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDto) {
         try{
-            Product nuevoProducto = productService.createProduct(product);
+            ProductDTO nuevoProducto = productService.createProduct(productDto);
             return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
         }catch(IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -55,9 +55,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDetails) {
         try {
-            Product updated = productService.updateProduct(id, productDetails);
+            ProductDTO updated = productService.updateProduct(id, productDetails);
             return ResponseEntity.ok(updated); // 200 OK
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build(); // 404 Not Found si no existe

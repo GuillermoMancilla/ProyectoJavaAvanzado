@@ -30,8 +30,8 @@ public class CategoryController {
         }
     }
     @GetMapping()
-    public ResponseEntity< List<Category>> getAllCategories(){
-        List<Category> categories = categoryService.getAllCategories();
+    public ResponseEntity< List<CategoryDTO>> getAllCategories(){
+        List<CategoryDTO> categories = categoryService.getAllCategories();
         if (categories.isEmpty()){
             return ResponseEntity.noContent().build();
         }else{
@@ -40,14 +40,14 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> createCategory(@RequestBody Category category) {
+    public ResponseEntity<?> createCategory(@RequestBody CategoryDTO category) {
         try{
-            Category nuevaCategoria = categoryService.createCategory(category);
+            CategoryDTO nuevaCategoria = categoryService.createCategory(category);
             return new ResponseEntity<>(nuevaCategoria, HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -55,9 +55,9 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category categoryDetail) {
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDetail) {
         try {
-            Category category = categoryService.updateCategory(id,categoryDetail);
+            CategoryDTO category = categoryService.updateCategory(id,categoryDetail);
             return  ResponseEntity.ok(category);
         } catch (IllegalArgumentException e){return ResponseEntity.notFound().build();}
     }
