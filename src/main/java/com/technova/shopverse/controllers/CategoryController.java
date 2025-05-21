@@ -4,6 +4,7 @@ import com.technova.shopverse.dto.CategoryDTO;
 import com.technova.shopverse.model.Category;
 import com.technova.shopverse.repository.CategoryRepository;
 import com.technova.shopverse.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCategory(@RequestBody CategoryDTO category) {
+    public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO category) {
         try{
             CategoryDTO nuevaCategoria = categoryService.createCategory(category);
             return new ResponseEntity<>(nuevaCategoria, HttpStatus.CREATED);
@@ -55,7 +56,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDetail) {
+    public ResponseEntity<CategoryDTO> updateCategory(@Valid @PathVariable Long id, @RequestBody CategoryDTO categoryDetail) {
         try {
             CategoryDTO category = categoryService.updateCategory(id,categoryDetail);
             return  ResponseEntity.ok(category);

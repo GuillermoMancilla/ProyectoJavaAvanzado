@@ -1,10 +1,15 @@
 package com.technova.shopverse.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 public class CategoryDTO {
     private Long id;
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String name;
+    @Size(min = 10, message = "La descripción debe tener al menos 10 caracteres")
     private String description;
     private List<String> productNames;
 

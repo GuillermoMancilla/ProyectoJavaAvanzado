@@ -5,6 +5,7 @@ import com.technova.shopverse.model.Category;
 import com.technova.shopverse.model.Product;
 import com.technova.shopverse.repository.CategoryRepository;
 import com.technova.shopverse.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +47,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO createCategory(CategoryDTO category) {
-        if (category.getName().isEmpty() || category.getName() == null){
-            throw new IllegalArgumentException("El nombre de la categoría no puede ser nulo ni estar vacío.");
-        }
-        if (category.getDescription().length() < 10){
-            throw new IllegalArgumentException("La descripción debe tener al menos 10 caracteres.");
-        }
+        //COMENTADO PARA PROBAR EL CONTROL DE EXCEPCIONES PLANTEADO EN MODULO 8
+//        if (category.getName().isEmpty() || category.getName() == null){
+//            throw new IllegalArgumentException("El nombre de la categoría no puede ser nulo ni estar vacío.");
+//        }
+//        if (category.getDescription().length() < 10){
+//            throw new IllegalArgumentException("La descripción debe tener al menos 10 caracteres.");
+//        }
         Category nuevaCategoria = new Category(category.getName(), category.getDescription());
         categoryRepository.save(nuevaCategoria);
         return toDTO(nuevaCategoria);

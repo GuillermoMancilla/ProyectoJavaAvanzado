@@ -4,6 +4,7 @@ import com.technova.shopverse.dto.ProductDTO;
 import com.technova.shopverse.model.Product;
 import com.technova.shopverse.repository.ProductRepository;
 import com.technova.shopverse.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDto) {
+    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDTO productDto) {
         try{
             ProductDTO nuevoProducto = productService.createProduct(productDto);
             return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
@@ -55,7 +56,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDetails) {
+    public ResponseEntity<ProductDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDTO productDetails) {
         try {
             ProductDTO updated = productService.updateProduct(id, productDetails);
             return ResponseEntity.ok(updated); // 200 OK
