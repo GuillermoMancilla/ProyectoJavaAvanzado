@@ -60,7 +60,7 @@ public class BatchConfig {
     //  Procesador: convierte CategoryCsv en entidad Category
     @Bean
     public ItemProcessor<CategoryCsv, Category> categoryProcessor() {
-        return csv -> new Category(csv.getId(), csv.getName(), csv.getDescription());
+        return csv -> new Category(csv.getName(), csv.getDescription());
     }
 
     //  Procesador: convierte ProductCsv en entidad Product, asociando su categoría
@@ -69,7 +69,7 @@ public class BatchConfig {
         return csv -> {
             Category category = categoryRepository.findById(csv.getCategory_id())
                     .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada: " + csv.getCategory_id()));
-            return new Product(csv.getId(), csv.getName(), csv.getDescription(), csv.getPrice(), category);
+            return new Product(csv.getName(), csv.getDescription(), csv.getPrice(), category);
         };
     }
 

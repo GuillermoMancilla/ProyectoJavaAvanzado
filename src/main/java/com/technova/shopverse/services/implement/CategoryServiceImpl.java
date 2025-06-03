@@ -54,9 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
 //        if (category.getDescription().length() < 10){
 //            throw new IllegalArgumentException("La descripción debe tener al menos 10 caracteres.");
 //        }
-        Category nuevaCategoria = new Category();
-        nuevaCategoria.setName(category.getName());
-        nuevaCategoria.setDescription(category.getDescription());
+        Category nuevaCategoria = new Category(category.getName(), category.getDescription());
         categoryRepository.save(nuevaCategoria);
         return toDTO(nuevaCategoria);
     }

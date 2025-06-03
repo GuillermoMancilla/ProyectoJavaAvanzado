@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 public class Product {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -21,21 +21,25 @@ public class Product {
     public Product() {
     }
 
-//    public Product(//Long id,
-//                   String name, String description, Double price) {
-//        //this.id = id;
-//        this.name = name;
-//        this.description = description;
-//        this.price = price;
-//    }
-    //Constructor para springBatch
-    public Product(Long id, String name, String description, Double price, Category category) {
-        this.id = id;
+    public Product(String name, String description, Double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+    public Product(String name, String description, Double price,Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
     }
+    //Constructor para springBatch
+//    public Product(Long id, String name, String description, Double price, Category category) {
+//        this.id = id;
+//        this.name = name;
+//        this.description = description;
+//        this.price = price;
+//        this.category = category;
+//    }
 
     public Long getId() {
         return id;

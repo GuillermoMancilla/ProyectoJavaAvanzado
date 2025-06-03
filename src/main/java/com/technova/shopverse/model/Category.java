@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class Category {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -22,20 +22,20 @@ public class Category {
     public Category() {
     }
 
-//    public Category(//Long id,
-//                    String name, String description) {
-//        //this.id = id;
-//        this.name = name;
-//        this.description = description;
-//    }
-
-    //Constructor para springBatch
-    public Category(Long id, String name, String description) {
-        this.id = id;
+    public Category(//Long id,
+                    String name, String description) {
+        //this.id = id;
         this.name = name;
         this.description = description;
-
     }
+
+    //Constructor para springBatch
+//    public Category(Long id, String name, String description) {
+//        this.id = id;
+//        this.name = name;
+//        this.description = description;
+//
+//    }
 
     public Long getId() {
         return id;

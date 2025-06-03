@@ -52,13 +52,9 @@ public class ProductServiceImpl implements ProductService {
 //        if (productDto.getCategoryDTO() == null) {
 //            throw new IllegalArgumentException("Debe indicar una categoria.");
 //        }
-        Long id;
 
+        Product product = new Product(productDto.getName(), productDto.getDescription(), productDto.getPrice());
         Category category = categoryRepository.findById(productDto.getCategoryDTO().getId()).orElse(null);
-        Product product = new Product();
-        product.setName(productDto.getName());
-        product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
         product.setCategory(category);
         productRepository.save(product);
         return toDTO(product);
