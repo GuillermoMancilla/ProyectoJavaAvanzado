@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -43,7 +44,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         return productService.getProductById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDTO productDto) {
         try{
@@ -54,7 +55,7 @@ public class ProductController {
         }
 
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductDTO productDetails) {
         try {
@@ -64,7 +65,7 @@ public class ProductController {
             return ResponseEntity.notFound().build(); // 404 Not Found si no existe
         }
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
@@ -76,7 +77,6 @@ public class ProductController {
     }
 
     @GetMapping("/by-category/{categoryId}")
-
     public ResponseEntity<List<ProductDTO>> getByCategory(@PathVariable Long categoryId) {
         List<ProductDTO> products = productService.getByCategoryId(categoryId);
         if (products.isEmpty()) {
