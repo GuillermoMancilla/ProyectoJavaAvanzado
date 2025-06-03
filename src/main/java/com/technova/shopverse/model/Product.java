@@ -21,12 +21,20 @@ public class Product {
     public Product() {
     }
 
-    public Product(//Long id,
-                   String name, String description, Double price) {
-        //this.id = id;
+//    public Product(//Long id,
+//                   String name, String description, Double price) {
+//        //this.id = id;
+//        this.name = name;
+//        this.description = description;
+//        this.price = price;
+//    }
+    //Constructor para springBatch
+    public Product(Long id, String name, String description, Double price, Category category) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.category = category;
     }
 
     public Long getId() {
